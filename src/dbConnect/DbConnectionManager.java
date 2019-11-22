@@ -36,7 +36,13 @@ public class DbConnectionManager {
 		return rs;
 	}	
 	
-	public void closeConnectio() {
+	public void executeStatementUpdate(String sql) throws SQLException {
+		Statement stmt=getConnection().createStatement();  
+		stmt.executeUpdate(sql);  
+		
+	}
+	
+	public void closeConnection() {
 		if (conn != null) {
 			try {
 				conn.close();
