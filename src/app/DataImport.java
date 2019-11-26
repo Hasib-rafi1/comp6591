@@ -10,23 +10,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Random;
 
 import dbConnect.DbConnectionManager;
 
 public class DataImport {
 	public  DbConnectionManager dm =null;
-	
+	public int anotation= 0;
+	public String importType;
+	public Random ran = new Random();
+	public ArrayList<String> tables= new ArrayList();
 	public DataImport(DbConnectionManager dms) {
 		dm = dms;
 	}
 	
-	public  void readFolder() {
+	public  void readFolder(int number, String a) {
+		anotation = number;
+		importType = a;
 		final File folder = new File("dbFiles/");
 		System.out.println("Reading Folder");
 		for (final File fileEntry : folder.listFiles()) {
 	        if (fileEntry.isFile() && fileEntry.getName().endsWith(".txt")) {
 	        	String table_name = fileEntry.getName().replaceAll(".txt", "").replace('.', '_');
-	        	
+	        	tables.add(table_name);
 	        	//System.out.println(table_name);
 	        	//System.out.println(fileEntry.getName());
 	        	createTable(table_name,fileEntry.getName());
@@ -46,13 +52,46 @@ public class DataImport {
 			BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 			
 		    String line;
+		    String randomString = "abcdefghijklmnopqrstuvwxyz";
+		    char ranchar = randomString.charAt(ran.nextInt(26));
+		    int row =0;
 		    while ((line = br.readLine()) != null) {
 		       // process the line.
 		    	if(count==0) {
-		    		insertQuery = insertQuery+ line+") VALUES (";
+		    		if(importType.equals("A") ||importType.equals("a")) {
+		    			insertQuery = insertQuery+ line+",anotation) VALUES (";
+		    		}else {
+		    			insertQuery = insertQuery+ line+") VALUES (";
+		    		}
+		    		
 		    		count++;
 		    	}else {
-		    		String finalQuery = insertQuery+line+");";
+		    		
+		    		
+		    		String finalQuery="";
+		    		if(importType.equals("A") ||importType.equals("a")) {
+		    			if(anotation==1) {
+		    				int x = ran.nextInt(9);
+		    				finalQuery = insertQuery+line+","+x+");";
+						}else if (anotation==2) {
+							float x = ran.nextFloat();
+							finalQuery = insertQuery+line+","+x+");";
+						}else if (anotation==3) {
+							float x = ran.nextFloat();
+							finalQuery = insertQuery+line+","+x+");";
+						}else if (anotation==4) {
+							row++;
+							finalQuery = insertQuery+line+","+ranchar+row+");";
+						}else if (anotation==5) {
+							finalQuery = insertQuery+line+","+1+");";
+						}else {
+							finalQuery = insertQuery+line+");";
+						}
+		    			
+		    		}else {
+		    			finalQuery = insertQuery+line+");";
+		    		}
+		    		
 		    		//System.out.println(finalQuery);
 		    		try {
 						dm.executeStatementUpdate(finalQuery);
@@ -130,13 +169,29 @@ public class DataImport {
 					System.out.println(strLine2_arr.size());
 				}
 			}
-			queryString = queryString +");";
+			if(importType.equals("I") ||importType.equals("i")) {
+				queryString = queryString +");";
+				
+			}else if(importType.equals("A") ||importType.equals("a")){
+				if(anotation==4) {
+					queryString = queryString +",anotation VARCHAR(30));";
+				}else if (anotation==2||anotation==3) {
+					queryString = queryString +",anotation DOUBLE(10,2));";
+				}
+				else {
+					queryString = queryString +",anotation INT(10));";
+				}
+				
+			}else {
+				queryString = queryString +");";
+			}
 			try {
 				dm.executeStatementUpdate(queryString);
 				System.out.println(table_name+" is Created");
 			} catch (SQLException e) {
+				System.out.println(queryString);
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			
 		} catch (FileNotFoundException e) {
@@ -171,5 +226,20 @@ public class DataImport {
 		{
 			return false;
 		}
+	}
+	
+	public boolean dropAll() {
+		for (String table : tables) {
+			try {
+				dm.executeStatementUpdate("DROP TABLE IF EXISTS " +table+";");
+				System.out.print(table+" Droped");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.print(table+" can't be Droped");
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
 	}
 }
