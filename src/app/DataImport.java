@@ -71,7 +71,7 @@ public class DataImport {
 		    		String finalQuery="";
 		    		if(importType.equals("A") ||importType.equals("a")) {
 		    			if(anotation==1) {
-		    				int x = ran.nextInt(9);
+		    				int x = ran.nextInt(9)+1;
 		    				finalQuery = insertQuery+line+","+x+");";
 						}else if (anotation==2) {
 							float x = ran.nextFloat();
@@ -81,7 +81,7 @@ public class DataImport {
 							finalQuery = insertQuery+line+","+x+");";
 						}else if (anotation==4) {
 							row++;
-							finalQuery = insertQuery+line+","+ranchar+row+");";
+							finalQuery = insertQuery+line+",'"+ranchar+row+"');";
 						}else if (anotation==5) {
 							finalQuery = insertQuery+line+","+1+");";
 						}else {
@@ -92,8 +92,9 @@ public class DataImport {
 		    			finalQuery = insertQuery+line+");";
 		    		}
 		    		
-		    		//System.out.println(finalQuery);
+		    		System.out.println(finalQuery);
 		    		try {
+		    			
 						dm.executeStatementUpdate(finalQuery);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
