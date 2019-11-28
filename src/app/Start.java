@@ -1,29 +1,24 @@
 package app;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.Scanner;
+
+import org.json.JSONArray;
 
 import dbConnect.DbConnectionManager;
 
 public class Start {
 	public static DbConnectionManager dm =null;
-	
+	public static JsonConverter jc=null;
 	
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		System.out.println("To Import data without anotation genarator into Database enter I/i and A/a for with anotation genarator.");
 		dm = new DbConnectionManager();
+		jc = new JsonConverter();
 		DataImport di = new DataImport(dm);
 		Scanner in = new Scanner(System.in);
 		String s = in. nextLine();
@@ -41,6 +36,29 @@ public class Start {
 					dm.closeConnection();
 					break;
 				}
+				
+			}
+			ResultSet result1 = dm.executeStatement("Select A,B,anotation from r;");
+			ResultSet result2 = dm.executeStatement("Select B,C,anotation from r;");
+			ResultSet result3 = dm.executeStatement("Select A,C,anotation from r;");
+			ResultSet result4 = dm.executeStatement("Select B,C,anotation from r;");
+			try {
+				Bag bag = new Bag();
+				JSONArray joing1 =  bag.join(jc.convertToJSON(result1), jc.convertToJSON(result2), "B", "B");
+				JSONArray joing2 =  bag.join(jc.convertToJSON(result3), jc.convertToJSON(result4), "C", "C");
+				ArrayList<String> col = new ArrayList<>();
+				col.add("A");
+				col.add("C");
+				JSONArray project1 = bag.projection(joing1,col);
+				JSONArray project2 = bag.projection(joing2,col);
+				
+				JSONArray union = bag.union(project1, project2);
+				
+				System.out.println(union);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
 		}

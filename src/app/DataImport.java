@@ -92,7 +92,7 @@ public class DataImport {
 		    			finalQuery = insertQuery+line+");";
 		    		}
 		    		
-		    		System.out.println(finalQuery);
+		    		//System.out.println(finalQuery);
 		    		try {
 		    			
 						dm.executeStatementUpdate(finalQuery);

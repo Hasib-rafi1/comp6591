@@ -1,0 +1,21 @@
+CREATE TABLE kbs_data.R (
+    A varchar(20),
+    B varchar(20),
+    C varchar(20),
+    anotation int(10)
+); 
+
+
+insert into kbs_data.R (A, B, C, anotation)
+VALUES ('a', 'b', 'c', 2);
+insert into kbs_data.R (A, B, C, anotation)
+VALUES ('d', 'b', 'e', 5); 
+insert into kbs_data.R (A, B, C, anotation)
+VALUES ('f', 'g', 'e', 1); 
+
+
+
+
+Select r1.A,r2.C from kbs_data.r as r1 , kbs_data.r as r2 where r1.B = r2.B
+Union
+Select r1.A,r2.C from kbs_data.r as r1 , kbs_data.r as r2 where r1.c = r2.c
