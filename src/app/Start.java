@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.management.StandardEmitterMBean;
+
 import org.json.JSONArray;
 
 import dbConnect.DbConnectionManager;
@@ -38,20 +40,29 @@ public class Start {
 				}
 				
 			}
-			ResultSet result1 = dm.executeStatement("Select A,B,anotation from r;");
-			ResultSet result2 = dm.executeStatement("Select B,C,anotation from r;");
-			ResultSet result3 = dm.executeStatement("Select A,C,anotation from r;");
-			ResultSet result4 = dm.executeStatement("Select B,C,anotation from r;");
+			
+//			ResultSet result1 = dm.executeStatement("Select product_id,product_name,anotation from production_products;");
+//			ResultSet result2 = dm.executeStatement("Select product_id,brand_id,anotation from production_products;");
+//			ResultSet result3 = dm.executeStatement("Select product_id,brand_id,anotation from production_products;");
+//			ResultSet result4 = dm.executeStatement("Select brand_id,product_name,anotation from production_products;");
+			
+			ResultSet result1 = dm.executeStatement("Select A,B,anotation from r3");
+			ResultSet result2 = dm.executeStatement("Select B,C,anotation from r3;");
+			ResultSet result3 = dm.executeStatement("Select A,C,anotation from r3;");
+			ResultSet result4 = dm.executeStatement("Select B,C,anotation from r3;");
 			try {
-				Bag bag = new Bag();
+				//Bag bag = new Bag();
+				Probability bag = new Probability();
 				JSONArray joing1 =  bag.join(jc.convertToJSON(result1), jc.convertToJSON(result2), "B", "B");
 				JSONArray joing2 =  bag.join(jc.convertToJSON(result3), jc.convertToJSON(result4), "C", "C");
+				//System.out.println(joing1);
 				ArrayList<String> col = new ArrayList<>();
 				col.add("A");
 				col.add("C");
 				JSONArray project1 = bag.projection(joing1,col);
 				JSONArray project2 = bag.projection(joing2,col);
-				
+				//System.out.println(project1);
+				//System.out.println(project2);
 				JSONArray union = bag.union(project1, project2);
 				
 				System.out.println(union);

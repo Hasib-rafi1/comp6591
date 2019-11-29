@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Bag {
+public class Probability {
 
 	public JSONArray projection(JSONArray result, ArrayList<String> columns) {
 		JSONArray finalOutPut = new JSONArray();
@@ -64,7 +64,7 @@ public class Bag {
 								}
 
 								jo.put(c, first_objects.get(c));
-								jo.put("anotation", first_objects.getInt("anotation")*second_objects.getInt("anotation"));
+								jo.put("anotation", first_objects.getDouble("anotation")*second_objects.getDouble("anotation"));
 								finalOutPut.put(jo);
 
 							}
@@ -96,7 +96,9 @@ public class Bag {
 			for (int i = 0; i < result.length()-1; i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
-				int ano = first_objects.getInt("anotation");
+				Double ano = first_objects.getDouble("anotation");
+				Double ano1 = 1 -first_objects.getDouble("anotation");
+				int n =0;
 				for (int j = i+1; j < result.length(); j++) {
 
 
@@ -114,7 +116,8 @@ public class Bag {
 
 					}
 					if(same == true) {
-						ano = ano + second_objects.getInt("anotation");
+						ano = ano1 *(1- second_objects.getDouble("anotation"));
+						n++;
 					}
 
 				}
@@ -129,7 +132,13 @@ public class Bag {
 					}
 
 				}
-				jo.put("anotation", ano);
+				if(n==0) {
+					jo.put("anotation", ano);
+				}else {
+					ano = 1- ano;
+					jo.put("anotation", ano);
+				}
+				
 				finalOutPut.put(jo);
 				//				if(finalOutPut!=null && finalOutPut.length()>0){
 				//					for (int k = 0; k < finalOutPut.length(); k++) {
@@ -171,7 +180,7 @@ public class Bag {
 			for (int i = 0; i < result.length()-1; i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
-				int ano = first_objects.getInt("anotation");
+				Double ano = first_objects.getDouble("anotation");
 				for (int j = i+1; j < result.length(); j++) {
 
 

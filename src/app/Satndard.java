@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Bag {
+public class Satndard {
 
 	public JSONArray projection(JSONArray result, ArrayList<String> columns) {
 		JSONArray finalOutPut = new JSONArray();
@@ -65,7 +65,9 @@ public class Bag {
 
 								jo.put(c, first_objects.get(c));
 								jo.put("anotation", first_objects.getInt("anotation")*second_objects.getInt("anotation"));
-								finalOutPut.put(jo);
+								if(jo.getInt("anotation")>0) {
+									finalOutPut.put(jo);
+								}
 
 							}
 						} catch (JSONException e) {
@@ -96,7 +98,7 @@ public class Bag {
 			for (int i = 0; i < result.length()-1; i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
-				int ano = first_objects.getInt("anotation");
+				int ano = 1;
 				for (int j = i+1; j < result.length(); j++) {
 
 
@@ -114,7 +116,7 @@ public class Bag {
 
 					}
 					if(same == true) {
-						ano = ano + second_objects.getInt("anotation");
+						ano = 1;
 					}
 
 				}
