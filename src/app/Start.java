@@ -14,7 +14,7 @@ import dbConnect.DbConnectionManager;
 public class Start {
 	public static DbConnectionManager dm =null;
 	public static JsonConverter jc=null;
-	static ArrayList<ResultSet> resultsSet = new ArrayList<ResultSet>();
+	static ArrayList<JSONArray> resultsSet = new ArrayList<JSONArray>();
 	
 	
 	public static void main(String[] args) throws SQLException {
@@ -47,7 +47,8 @@ public class Start {
 				System.out.println("Please only choose a number between 1-5");
 			}
 		}
-	
+		
+		
 		di.readFolder(semantic,selectedDB);
 		
 		while(true) {
@@ -75,11 +76,9 @@ public class Start {
 				System.out.println(queryInputs);
 				switch (semantic) {
 				case 1:
-					Bag bag = new Bag();
-					runSemantic(queryInputs, bag);
+					runBagSemantic(queryInputs);
 					break;
 				case 2:
-				
 					
 					break;
 				case 3:
@@ -94,94 +93,93 @@ public class Start {
 				}
 			}
 			
-			dm.closeConnection();
-			
-			/*
-			ResultSet result1 = dm.executeStatement("Select A,B,anotation from r;");
-			ResultSet result2 = dm.executeStatement("Select B,C,anotation from r;");
-			ResultSet result3 = dm.executeStatement("Select A,C,anotation from r;");
-			ResultSet result4 = dm.executeStatement("Select B,C,anotation from r;");
-			
-			try {
-				Bag bag = new Bag();
-				JSONArray joing1 =  bag.join(jc.convertToJSON(result1), jc.convertToJSON(result2), "B", "B");
-				JSONArray joing2 =  bag.join(jc.convertToJSON(result3), jc.convertToJSON(result4), "C", "C");
-				ArrayList<String> col = new ArrayList<>();
-				col.add("A");
-				col.add("C");
-				JSONArray project1 = bag.projection(joing1,col);
-				JSONArray project2 = bag.projection(joing2,col);
-				
-				JSONArray union = bag.union(project1, project2);
-				
-				System.out.println(union);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+			System.out.println();
+			for(int i=0; i< resultsSet.size(); i++){
+				System.out.println(resultsSet.get(i));
 			}
-		*/
+			System.out.println();
+			
+			dm.closeConnection();
 		}
-		
-//		ResultSet result = dm.executeStatement("SELECT * FROM emp;");
-//		while(result.next())  
-//			System.out.println(result.getInt(1)+"  "+result.getString(2)); 
-//		
-//		dm.closeConnection();
 	}
 
-	private static void runSemantic(ArrayList<String> queryInputs, Object semantic) throws SQLException {
-		
+	
+	public static void runBagSemantic(ArrayList<String> queryInputs) throws SQLException {
+		Bag bag = new Bag();
 		for(int i=0; i<queryInputs.size(); i++){
 			String Q = queryInputs.get(i);
-			//System.out.println(Q);
+			System.out.println("Query: " + Q);
 			StringTokenizer st = new StringTokenizer(Q);
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt) {
 			case "select":
+				System.out.println("Select-before" + resultsSet);
 				ResultSet result1 = dm.executeStatement(Q);
-				resultsSet.add(result1);
+				try {
+					resultsSet.add(jc.convertToJSON(result1));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				System.out.println("Select-after" + resultsSet);
 				break;
 			case "project":
+				try {
 				if(Q.contains("from")){
+					System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
+					System.out.println(modifiedQ);
 					ResultSet result2 = dm.executeStatement(modifiedQ);
-					resultsSet.add(result2);
+					
+					resultsSet.add(jc.convertToJSON(result2));
+					
+					System.out.println("Project-from-after" + resultsSet);
 				}
 				else{
-					ResultSet r1 = resultsSet.get(resultsSet.size()-1);
+					System.out.println("Project-before" + resultsSet);
+					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
 					String modifiedQ = Q.substring(8, Q.length());
 					StringTokenizer st1 = new StringTokenizer(modifiedQ, ",");
 					while(st1.hasMoreTokens()){
 						col.add(st1.nextToken());
 					}
-					//ResultSet projectR = semantic.projection(r1,col);
+					
+					JSONArray projectR = bag.projection(r1,col);
+					resultsSet.remove(resultsSet.size()-1);
+					resultsSet.add(projectR);
+					System.out.println("Project-after" + resultsSet);
 				}
-				
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			case "join":
-				ResultSet r2 = resultsSet.get(resultsSet.size()-1);
-				ResultSet r3 = resultsSet.get(resultsSet.size()-2);
+				System.out.println("Join-before" + resultsSet);
+				JSONArray r2 = resultsSet.get(resultsSet.size()-1);
+				JSONArray r3 = resultsSet.get(resultsSet.size()-2);
 				String joinOn = Q.substring(5, Q.length());
-				//resultsSet joinR =  semantic.join(jc.convertToJSON(r2), jc.convertToJSON(r3), joinOn, joinOn);
+				JSONArray joinR =  bag.join(r2, r3, joinOn, joinOn);
+				
 				resultsSet.remove(resultsSet.size()-1);
-				resultsSet.remove(resultsSet.size()-2);
-				//resultsSet.add(joinR);
+				resultsSet.remove(resultsSet.size()-1);
+				resultsSet.add(joinR);
+				System.out.println("Join-after" + resultsSet);
 				break;
 			case "union":
-				ResultSet r4 = resultsSet.get(resultsSet.size()-1);
-				ResultSet r5 = resultsSet.get(resultsSet.size()-2);
-				//ResultSet unionR = semantic.union(r4, r5);
+				System.out.println("Union-before" + resultsSet);
+				JSONArray r4 = resultsSet.get(resultsSet.size()-1);
+				JSONArray r5 = resultsSet.get(resultsSet.size()-2);
+				JSONArray unionR = bag.union(r4, r5);
 				resultsSet.remove(resultsSet.size()-1);
-				resultsSet.remove(resultsSet.size()-2);
-				//resultsSet.add(unionR);
+				resultsSet.remove(resultsSet.size()-1);
+				resultsSet.add(unionR);
+				
+				System.out.println("Union-after" + resultsSet);
 				break;
 			}
-		}
-		
-		
+		}	
 	}
-	
-	
-
 }
