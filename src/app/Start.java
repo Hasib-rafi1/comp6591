@@ -61,8 +61,8 @@ public class Start {
 				col.add("C");
 				JSONArray project1 = bag.projection(joing1,col);
 				JSONArray project2 = bag.projection(joing2,col);
-				//System.out.println(project1);
-				//System.out.println(project2);
+				System.out.println(project1);
+				System.out.println(project2);
 				JSONArray union = bag.union(project1, project2);
 				
 				System.out.println(union);

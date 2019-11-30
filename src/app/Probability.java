@@ -34,7 +34,8 @@ public class Probability {
 				finalOutPut.put(jo);
 			}
 		}
-		return finalOutPut;
+		result = joinAdd(finalOutPut);
+		return result;
 	}
 	public JSONArray join(JSONArray first,JSONArray second, String c, String d) {
 		JSONArray finalOutPut = new JSONArray();
@@ -64,7 +65,7 @@ public class Probability {
 								}
 
 								jo.put(c, first_objects.get(c));
-								jo.put("anotation", first_objects.getDouble("anotation")*second_objects.getDouble("anotation"));
+								jo.put("anotation", Math.round(first_objects.getDouble("anotation")*second_objects.getDouble("anotation")* 100.0) / 100.0);
 								finalOutPut.put(jo);
 
 							}
@@ -77,13 +78,15 @@ public class Probability {
 			}
 		}
 
-
+		
 		return finalOutPut;
 	}
 
 	public JSONArray union(JSONArray result, JSONArray result2) {
 		JSONArray finalOutPut = new JSONArray();
 		JSONArray processedFinalOutPut = new JSONArray();
+		result = joinAdd(result);
+		result2 = joinAdd(result2);
 		if(result2!=null && result2.length()>0){
 			for (int i = 0; i < result2.length(); i++) {
 				JSONObject first_objects =result2.optJSONObject(i);
@@ -93,7 +96,7 @@ public class Probability {
 
 		try {
 
-			for (int i = 0; i < result.length()-1; i++) {
+			for (int i = 0; i < result.length(); i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
 				Double ano = first_objects.getDouble("anotation");
@@ -116,7 +119,19 @@ public class Probability {
 
 					}
 					if(same == true) {
-						ano = ano1 *(1- second_objects.getDouble("anotation"));
+						if(n==0) {
+							ano = ano1 *(1- second_objects.getDouble("anotation"));
+							//ano = ano + second_objects.getDouble("anotation");
+							ano = Math.round(ano* 100.0) / 100.0;
+							
+						}else {
+							ano = ano *(1- second_objects.getDouble("anotation"));
+							//ano = ano + second_objects.getDouble("anotation");
+							ano = Math.round(ano* 100.0) / 100.0;
+							
+						}
+						
+						
 						n++;
 					}
 
@@ -133,9 +148,12 @@ public class Probability {
 
 				}
 				if(n==0) {
+					ano = Math.round(ano* 100.0) / 100.0;
+					
 					jo.put("anotation", ano);
 				}else {
 					ano = 1- ano;
+					ano = Math.round(ano* 100.0) / 100.0;
 					jo.put("anotation", ano);
 				}
 				
@@ -174,10 +192,11 @@ public class Probability {
 	}
 
 	public JSONArray removeDuplicates(JSONArray result) {
+		
 		ArrayList <Integer> indices = new ArrayList();
 		JSONArray finalOutput = new JSONArray();
 		try {
-			for (int i = 0; i < result.length()-1; i++) {
+			for (int i = 0; i < result.length(); i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
 				Double ano = first_objects.getDouble("anotation");
@@ -205,6 +224,7 @@ public class Probability {
 			}
 			for (int i = 0; i < result.length(); i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
+				
 				if(!indices.contains(i)) {
 					finalOutput.put(first_objects);
 				}
@@ -215,6 +235,83 @@ public class Probability {
 		}
 
 		return finalOutput;
+	}
+	
+	public JSONArray joinAdd(JSONArray result) {
+		JSONArray finalOutPut = new JSONArray();
+		JSONArray processedFinalOutPut = new JSONArray();
+		
+
+		try {
+
+			for (int i = 0; i < result.length(); i++) {
+				JSONObject first_objects =result.optJSONObject(i); 
+				JSONObject jo = new JSONObject();
+				Double ano = first_objects.getDouble("anotation");
+				for (int j = i+1; j < result.length(); j++) {
+
+
+					JSONObject second_objects =result.optJSONObject(j);
+
+					Iterator<String> keys= second_objects.keys();
+					boolean same = true;
+					while(keys.hasNext()) {
+						String currentDynamicKey = (String)keys.next();
+
+						if(!currentDynamicKey.equals("anotation") && !first_objects.get(currentDynamicKey).equals(second_objects.get(currentDynamicKey))) {
+							//jo.put(currentDynamicKey, first_objects.get(currentDynamicKey));
+							same = false;
+						}
+					}
+					if(same == true) {
+						ano = ano + second_objects.getDouble("anotation");
+					}
+
+				}
+				Iterator<String> keys= first_objects.keys();
+
+				while(keys.hasNext()) {
+					String currentDynamicKey = (String)keys.next();
+
+					if(!currentDynamicKey.equals("anotation")) {
+						jo.put(currentDynamicKey, first_objects.get(currentDynamicKey));
+
+					}
+
+				}
+				jo.put("anotation", ano);
+				finalOutPut.put(jo);
+				//				if(finalOutPut!=null && finalOutPut.length()>0){
+				//					for (int k = 0; k < finalOutPut.length(); k++) {
+				//						JSONObject final_objects =finalOutPut.optJSONObject(k);
+				//						Iterator<String> final_keys= final_objects.keys();
+				//						boolean same = true;
+				//						while(keys.hasNext()) {
+				//							String currentDynamicKey = (String)keys.next();
+				//							
+				//							if(!currentDynamicKey.equals("anotation") && !final_objects.get(currentDynamicKey).equals(jo.get(currentDynamicKey)) ) {
+				//								//jo.put(currentDynamicKey, first_objects.get(currentDynamicKey));
+				//								same = false;
+				//							}
+				//
+				//						}
+				//						System.out.println(same);
+				//						if(same==true) {
+				//							finalOutPut.put(jo);
+				//						}
+				//					}
+				//				}else {
+				//					finalOutPut.put(jo);
+				//				}
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		processedFinalOutPut = removeDuplicates(finalOutPut);
+		
+		return processedFinalOutPut;
 	}
 
 }

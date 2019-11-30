@@ -95,7 +95,7 @@ public class Satndard {
 
 		try {
 
-			for (int i = 0; i < result.length()-1; i++) {
+			for (int i = 0; i < result.length(); i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
 				int ano = 1;
@@ -170,7 +170,7 @@ public class Satndard {
 		ArrayList <Integer> indices = new ArrayList();
 		JSONArray finalOutput = new JSONArray();
 		try {
-			for (int i = 0; i < result.length()-1; i++) {
+			for (int i = 0; i < result.length(); i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
 				int ano = first_objects.getInt("anotation");
