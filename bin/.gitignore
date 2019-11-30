@@ -1,5 +1,1 @@
 *.properties
-/.gitignore
-/app/
-/dbConnect/
-/sql.txt

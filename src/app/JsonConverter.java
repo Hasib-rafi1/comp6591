@@ -36,7 +36,7 @@ public class JsonConverter {
 		return jsonArray;
 	}
 	
-	private ArrayList<HashMap<String, Object>> resultSetToList(ResultSet rs) throws SQLException {
+	public ArrayList<HashMap<String, Object>> resultSetToList(ResultSet rs) throws SQLException {
 	    ResultSetMetaData md = (ResultSetMetaData) rs.getMetaData();
 	    int columns = md.getColumnCount();
 	    ArrayList<HashMap<String, Object>> rows = new ArrayList<HashMap<String, Object>>();
