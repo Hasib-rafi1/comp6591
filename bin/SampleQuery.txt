@@ -1,0 +1,20 @@
+project A,B,anotation from r
+project B,C,anotation from r
+join B
+project A,C,anotation from R
+project B,C,anotation from R
+join C
+union
+project A,C,anotation
+
+
+
+project A,B,anotation from r2
+project B,C,anotation from r2
+join B
+project A,C,anotation
+project A,C,anotation from R2
+project B,C,anotation from R2
+join C
+project A,C,anotation
+union
