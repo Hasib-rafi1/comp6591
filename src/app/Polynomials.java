@@ -64,7 +64,7 @@ public class Polynomials {
 								}
 
 								jo.put(c, first_objects.get(c));
-								jo.put("anotation", first_objects.getString("anotation")+"."+second_objects.getString("anotation"));
+								jo.put("anotation", "(" + first_objects.getString("anotation")+").("+second_objects.getString("anotation")+ ")");
 								finalOutPut.put(jo);
 
 							}

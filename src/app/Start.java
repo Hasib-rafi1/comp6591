@@ -20,7 +20,7 @@ public class Start {
 	static ArrayList<JSONArray> resultsSet = new ArrayList<JSONArray>();
 	
 	
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, JSONException {
 		
 		Scanner in = new Scanner(System.in);
 		dm = new DbConnectionManager();
@@ -97,27 +97,69 @@ public class Start {
 			}
 			
 			System.out.println();
-			for(int i=0; i< resultsSet.size(); i++){
-				System.out.println(resultsSet.get(i));
-			}
-			System.out.println();
-			HashMap<String, ArrayList<String>> finalPresentation = new HashMap<String, ArrayList<String>>();
 			for(int i=0; i<resultsSet.size(); i++){
 				JSONArray finalR = resultsSet.get(i);
-				for(int j=0; j<finalR.length(); j++){
-					try {
-						//System.out.println("Row" + j + ": " + finalR.getJSONObject(j));
-						Iterator<String> keys = finalR.getJSONObject(j).keys();
-						while(keys.hasNext()) {
-							String key = (String)keys.next();
-							String value = finalR.getJSONObject(j).getString(key);
-							
-							System.out.println(key);
-						}
-					} catch (JSONException e) {
-						e.printStackTrace();
+				int numberofcol = 0;
+				Iterator<String> keys1 = finalR.getJSONObject(0).keys();
+				while(keys1.hasNext()){
+					keys1.next();
+					numberofcol++;
+				}
+				
+				String [][] presentation = new String [finalR.length()+1][numberofcol];
+				Iterator<String> keys2 = finalR.getJSONObject(0).keys();
+				for(int c=0; c<numberofcol-1; c++){
+					String key = keys2.next();
+					if(!key.equalsIgnoreCase("anotation")){
+						presentation[0][c] = key;
+					}
+					else{
+						c = c-1;
 					}
 				}
+				presentation[0][numberofcol-1] = "Annotation";
+				
+				for(int row = 1; row<finalR.length()+1; row++){
+					Iterator<String> keys3 = finalR.getJSONObject(row-1).keys();
+					for(int col = 0; col<numberofcol-1; col++){
+						String key = keys3.next();
+						if(!key.equalsIgnoreCase("anotation")){
+							String value = finalR.getJSONObject(row-1).getString(key);
+							presentation[row][col] = value;
+						}
+						else{
+							col = col -1;
+						}
+					}
+				}
+				
+				for(int row = 1; row<finalR.length()+1; row++){
+					Iterator<String> keys3 = finalR.getJSONObject(row-1).keys();
+					while(keys3.hasNext()){
+						String key = keys3.next();
+						if(key.equalsIgnoreCase("anotation")){
+							String value = finalR.getJSONObject(row-1).getString(key);
+							presentation[row][numberofcol-1] = value;
+						}
+					}
+					
+				}
+				
+				for(int row = 0; row<finalR.length()+1; row++){
+					for(int col = 0; col<numberofcol; col++){
+						System.out.print(presentation[row][col]+ "              ");
+					}
+					
+					if(row==0){
+						System.out.println("\n----------------------------------------------------");
+					}
+					else{
+						System.out.println();
+					}
+					
+				}
+				
+				
 			}
 			System.out.println();
 			
