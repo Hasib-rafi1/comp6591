@@ -49,7 +49,7 @@ public class Start {
 		}
 		
 		
-		di.readFolder(semantic,selectedDB);
+		//di.readFolder(semantic,selectedDB);
 		
 		while(true) {
 			System.out.println("Enter your query\n-Enter <DONE> when it has been finished\n-You wanna quit? Enter Q/q");

@@ -34,8 +34,8 @@ public class Probability {
 				finalOutPut.put(jo);
 			}
 		}
-		result = joinAdd(finalOutPut);
-		return result;
+		finalOutPut = joinAdd(finalOutPut);
+		return finalOutPut;
 	}
 	public JSONArray join(JSONArray first,JSONArray second, String c, String d) {
 		JSONArray finalOutPut = new JSONArray();
