@@ -1,11 +1,11 @@
 project A,B from r
 project B,C from r
 join B
-project A,C,anotation
-project A,C,anotation from R
-project B,C,anotation from R
+project A,C
+project A,C from R
+project B,C from R
 join C
-project A,C,anotation
+project A,C
 union
 
 
@@ -27,7 +27,7 @@ Union
 Project A,B
 Select B,C from r2
 Join B
-Project A,C,anotation
+Project A,C
 
 
 
@@ -36,25 +36,47 @@ Project A,C,anotation
 
 
 
-project A,B,anotation from r3
-project B,C,anotation from r3
+project A,B from r3
+project B,C from r3
 join B
-project A,C,anotation
-project A,C,anotation from R3
-project B,C,anotation from R3
+project A,C
+project A,C from R3
+project B,C from R3
 join C
-project A,C,anotation
+project A,C
 union
 
 
 
 
-project A,B,anotation from r4
-project B,C,anotation from r4
+project A,B from r4
+project B,C from r4
 join B
-project A,C,anotation
-project A,C,anotation from R4
-project B,C,anotation from R4
+project A,C
+project A,C from R4
+project B,C from R4
 join C
-project A,C,anotation
+project A,C
+union
+
+
+project A,B from r
+project B,C from r
+join B
+project A,C
+project A,C from r
+project B,C from r
+join C
+project A,C
+union
+
+
+project A,B from r1
+project B,C from r1
+join B
+project A,C
+project A,C from r1
+project B,C from r1
+join C
+project A,C
 union
