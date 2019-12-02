@@ -116,7 +116,7 @@ public class Uncertain {
 			for (int i = 0; i < result.length(); i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
-				int ano = first_objects.getInt("anotation");
+				Double ano = first_objects.getDouble("anotation");
 				for (int j = i+1; j < result.length(); j++) {
 
 
@@ -134,7 +134,10 @@ public class Uncertain {
 
 					}
 					if(same == true) {
-						ano = ano + second_objects.getInt("anotation");
+						if(ano<second_objects.getDouble("anotation")) {
+							ano = second_objects.getDouble("anotation");
+						}
+						
 					}
 
 				}
@@ -191,7 +194,7 @@ public class Uncertain {
 			for (int i = 0; i < result.length(); i++) {
 				JSONObject first_objects =result.optJSONObject(i); 
 				JSONObject jo = new JSONObject();
-				int ano = first_objects.getInt("anotation");
+				Double ano = first_objects.getDouble("anotation");
 				for (int j = i+1; j < result.length(); j++) {
 
 
