@@ -52,7 +52,7 @@ public class Start {
 		}
 		
 		
-		//di.readFolder(semantic,selectedDB);
+		di.readFolder(semantic,selectedDB);
 		
 		while(true) {
 			resultsSet.clear();

@@ -49,8 +49,8 @@ public class Uncertain {
 							anotationVal1.put(first_objects.getString(c), anotationVal1.get(first_objects.getString(c))+first_objects.getDouble("anotation"));
 							anotationVal2.put(first_objects.getString(c), anotationVal2.get(first_objects.getString(c))*first_objects.getDouble("anotation"));
 						}else {
-							anotationVal1.put(first_objects.getString(c), first_objects.getDouble("anotation"));
-							anotationVal2.put(first_objects.getString(c), first_objects.getDouble("anotation"));
+							anotationVal1.put(first_objects.get(c).toString(), first_objects.getDouble("anotation"));
+							anotationVal2.put(first_objects.get(c).toString(), first_objects.getDouble("anotation"));
 						}
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -84,7 +84,7 @@ public class Uncertain {
 								}
 								
 								jo.put(c, first_objects.get(c));
-								Double val = (anotationVal1.get(first_objects.get(c))-anotationVal2.get(first_objects.get(c)))*second_objects.getDouble("anotation");
+								Double val = (anotationVal1.get(first_objects.get(c).toString())-anotationVal2.get(first_objects.get(c).toString()))*second_objects.getDouble("anotation");
 								val = Math.round(val* 100.0) / 100.0;
 								jo.put("anotation", val);
 								finalOutPut.put(jo);

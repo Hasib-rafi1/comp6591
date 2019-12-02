@@ -1,0 +1,6 @@
+course_id, course_name, student_id, code, anotation
+321,'ML',123,'eath',1
+321,'ML',124,'4gha',1
+421,'KBS',124,'eath',1
+421,'KBS',125,'4gha',1
+521,'APP',125,'9sje',1
