@@ -125,7 +125,7 @@ public class Start {
 					for(int col = 0; col<numberofcol-1; col++){
 						String key = keys3.next();
 						if(!key.equalsIgnoreCase("anotation")){
-							String value = finalR.getJSONObject(row-1).getString(key);
+							String value = finalR.getJSONObject(row-1).get(key).toString();
 							presentation[row][col] = value;
 						}
 						else{
@@ -139,7 +139,7 @@ public class Start {
 					while(keys3.hasNext()){
 						String key = keys3.next();
 						if(key.equalsIgnoreCase("anotation")){
-							String value = finalR.getJSONObject(row-1).getString(key);
+							String value = finalR.getJSONObject(row-1).get(key).toString();
 							presentation[row][numberofcol-1] = value;
 						}
 					}
