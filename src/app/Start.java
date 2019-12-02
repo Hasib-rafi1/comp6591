@@ -178,8 +178,9 @@ public class Start {
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt) {
 			case "select":
-				//System.out.println("Select-before" + resultsSet);
-				ResultSet result1 = dm.executeStatement(Q);
+				int fromIndex = Q.indexOf("from");
+				String modifiedQ1 = Q.substring(0, fromIndex -1) + ",anotation " + Q.substring(fromIndex,Q.length());
+				ResultSet result1 = dm.executeStatement(modifiedQ1);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
 				} catch (Exception e1) {
@@ -194,8 +195,9 @@ public class Start {
 				if(Q.contains("from")){
 					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					//System.out.println(modifiedQ);
-					ResultSet result2 = dm.executeStatement(modifiedQ);
+					int fromIndex2 = modifiedQ.indexOf("from");
+					String modifiedQ2 = modifiedQ.substring(0, fromIndex2 -1) + ",anotation " + modifiedQ.substring(fromIndex2,modifiedQ.length());
+					ResultSet result2 = dm.executeStatement(modifiedQ2);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
@@ -205,7 +207,7 @@ public class Start {
 					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
-					String modifiedQ = Q.substring(8, Q.length());
+					String modifiedQ = Q.substring(8, Q.length()) + ",anotation";
 					StringTokenizer st1 = new StringTokenizer(modifiedQ, ",");
 					while(st1.hasMoreTokens()){
 						col.add(st1.nextToken());
@@ -258,8 +260,9 @@ public class Start {
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt.toLowerCase()) {
 			case "select":
-				//System.out.println("Select-before" + resultsSet);
-				ResultSet result1 = dm.executeStatement(Q);
+				int fromIndex = Q.indexOf("from");
+				String modifiedQ1 = Q.substring(0, fromIndex -1) + ",anotation " + Q.substring(fromIndex,Q.length());
+				ResultSet result1 = dm.executeStatement(modifiedQ1);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
 				} catch (Exception e1) {
@@ -274,8 +277,9 @@ public class Start {
 				if(Q.contains("from")){
 					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					//System.out.println(modifiedQ);
-					ResultSet result2 = dm.executeStatement(modifiedQ);
+					int fromIndex2 = modifiedQ.indexOf("from");
+					String modifiedQ2 = modifiedQ.substring(0, fromIndex2 -1) + ",anotation " + modifiedQ.substring(fromIndex2,modifiedQ.length());
+					ResultSet result2 = dm.executeStatement(modifiedQ2);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
@@ -285,7 +289,7 @@ public class Start {
 					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
-					String modifiedQ = Q.substring(8, Q.length());
+					String modifiedQ = Q.substring(8, Q.length()) + ",anotation";
 					StringTokenizer st1 = new StringTokenizer(modifiedQ, ",");
 					while(st1.hasMoreTokens()){
 						col.add(st1.nextToken());
@@ -338,8 +342,9 @@ public class Start {
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt) {
 			case "select":
-				//System.out.println("Select-before" + resultsSet);
-				ResultSet result1 = dm.executeStatement(Q);
+				int fromIndex1 = Q.indexOf("from");
+				String modifiedQ1 = Q.substring(0, fromIndex1 -1) + ",anotation " + Q.substring(fromIndex1,Q.length());
+				ResultSet result1 = dm.executeStatement(modifiedQ1);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
 				} catch (Exception e1) {
@@ -354,8 +359,9 @@ public class Start {
 				if(Q.contains("from")){
 					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					//System.out.println(modifiedQ);
-					ResultSet result2 = dm.executeStatement(modifiedQ);
+					int fromIndex2 = modifiedQ.indexOf("from");
+					String modifiedQ2 = modifiedQ.substring(0, fromIndex2 -1) + ",anotation " + modifiedQ.substring(fromIndex2,modifiedQ.length());
+					ResultSet result2 = dm.executeStatement(modifiedQ2);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
@@ -365,7 +371,7 @@ public class Start {
 					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
-					String modifiedQ = Q.substring(8, Q.length());
+					String modifiedQ = Q.substring(8, Q.length()) + ",anotation";
 					StringTokenizer st1 = new StringTokenizer(modifiedQ, ",");
 					while(st1.hasMoreTokens()){
 						col.add(st1.nextToken());
@@ -419,8 +425,9 @@ public class Start {
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt) {
 			case "select":
-				//System.out.println("Select-before" + resultsSet);
-				ResultSet result1 = dm.executeStatement(Q);
+				int fromIndex = Q.indexOf("from");
+				String modifiedQ1 = Q.substring(0, fromIndex -1) + ",anotation " + Q.substring(fromIndex,Q.length());
+				ResultSet result1 = dm.executeStatement(modifiedQ1);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
 				} catch (Exception e1) {
@@ -435,8 +442,9 @@ public class Start {
 				if(Q.contains("from")){
 					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					//System.out.println(modifiedQ);
-					ResultSet result2 = dm.executeStatement(modifiedQ);
+					int fromIndex2 = modifiedQ.indexOf("from");
+					String modifiedQ2 = modifiedQ.substring(0, fromIndex2 -1) + ",anotation " + modifiedQ.substring(fromIndex2,modifiedQ.length());
+					ResultSet result2 = dm.executeStatement(modifiedQ2);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
@@ -446,7 +454,7 @@ public class Start {
 					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
-					String modifiedQ = Q.substring(8, Q.length());
+					String modifiedQ = Q.substring(8, Q.length()) + ",anotation";
 					StringTokenizer st1 = new StringTokenizer(modifiedQ, ",");
 					while(st1.hasMoreTokens()){
 						col.add(st1.nextToken());
@@ -501,7 +509,9 @@ public class Start {
 			switch (firstElemnt) {
 			case "select":
 				//System.out.println("Select-before" + resultsSet);
-				ResultSet result1 = dm.executeStatement(Q);
+				int fromIndex = Q.indexOf("from");
+				String modifiedQ1 = Q.substring(0, fromIndex -1) + ",anotation " + Q.substring(fromIndex,Q.length());
+				ResultSet result1 = dm.executeStatement(modifiedQ1);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
 				} catch (Exception e1) {
@@ -516,8 +526,9 @@ public class Start {
 				if(Q.contains("from")){
 					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					//System.out.println(modifiedQ);
-					ResultSet result2 = dm.executeStatement(modifiedQ);
+					int fromIndex2 = modifiedQ.indexOf("from");
+					String modifiedQ2 = modifiedQ.substring(0, fromIndex2 -1) + ",anotation " + modifiedQ.substring(fromIndex2,modifiedQ.length());
+					ResultSet result2 = dm.executeStatement(modifiedQ2);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
@@ -527,7 +538,7 @@ public class Start {
 					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
-					String modifiedQ = Q.substring(8, Q.length());
+					String modifiedQ = Q.substring(8, Q.length()) + ",anotation";
 					StringTokenizer st1 = new StringTokenizer(modifiedQ, ",");
 					while(st1.hasMoreTokens()){
 						col.add(st1.nextToken());
