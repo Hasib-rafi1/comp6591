@@ -18,3 +18,12 @@ project B,C,anotation from R2
 join C
 project A,C,anotation
 union
+
+
+Select A,B,anotation from r2
+Select A,B,anotation from r2
+Union 
+Project A,B,anotation
+Select B,C,anotation from r2
+Join B
+Project A,C,anotation

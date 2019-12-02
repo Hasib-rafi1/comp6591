@@ -55,6 +55,7 @@ public class Start {
 		//di.readFolder(semantic,selectedDB);
 		
 		while(true) {
+			resultsSet.clear();
 			System.out.println("Enter your query\n-Enter <DONE> when it has been finished\n-You wanna quit? Enter Q/q");
 			String query1 = in. nextLine();
 			if(query1.equalsIgnoreCase("Q")) {
@@ -76,7 +77,7 @@ public class Start {
 						queryInputs.add(query);
 					}
 				}
-				System.out.println(queryInputs);
+				//System.out.println(queryInputs);
 				switch (semantic) {
 				case 1:
 					runBagSemantic(queryInputs);
@@ -172,12 +173,12 @@ public class Start {
 		Satndard standard = new Satndard();
 		for(int i=0; i<queryInputs.size(); i++){
 			String Q = queryInputs.get(i);
-			System.out.println("Query: " + Q);
+			//System.out.println("Query: " + Q);
 			StringTokenizer st = new StringTokenizer(Q);
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt) {
 			case "select":
-				System.out.println("Select-before" + resultsSet);
+				//System.out.println("Select-before" + resultsSet);
 				ResultSet result1 = dm.executeStatement(Q);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
@@ -186,22 +187,22 @@ public class Start {
 					e1.printStackTrace();
 				}
 				
-				System.out.println("Select-after" + resultsSet);
+				//System.out.println("Select-after" + resultsSet);
 				break;
 			case "project":
 				try {
 				if(Q.contains("from")){
-					System.out.println("Project-from-before" + resultsSet);
+					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					System.out.println(modifiedQ);
+					//System.out.println(modifiedQ);
 					ResultSet result2 = dm.executeStatement(modifiedQ);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
-					System.out.println("Project-from-after" + resultsSet);
+					//System.out.println("Project-from-after" + resultsSet);
 				}
 				else{
-					System.out.println("Project-before" + resultsSet);
+					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
 					String modifiedQ = Q.substring(8, Q.length());
@@ -213,14 +214,14 @@ public class Start {
 					JSONArray projectR = standard.projection(r1,col);
 					resultsSet.remove(resultsSet.size()-1);
 					resultsSet.add(projectR);
-					System.out.println("Project-after" + resultsSet);
+					//System.out.println("Project-after" + resultsSet);
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case "join":
-				System.out.println("Join-before" + resultsSet);
+				//System.out.println("Join-before" + resultsSet);
 				JSONArray r2 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r3 = resultsSet.get(resultsSet.size()-2);
 				String joinOn = Q.substring(5, Q.length());
@@ -229,10 +230,10 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(joinR);
-				System.out.println("Join-after" + resultsSet);
+				//System.out.println("Join-after" + resultsSet);
 				break;
 			case "union":
-				System.out.println("Union-before" + resultsSet);
+				//System.out.println("Union-before" + resultsSet);
 				JSONArray r4 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r5 = resultsSet.get(resultsSet.size()-2);
 				JSONArray unionR = standard.union(r4, r5);
@@ -240,7 +241,7 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(unionR);
 				
-				System.out.println("Union-after" + resultsSet);
+				//System.out.println("Union-after" + resultsSet);
 				break;
 			}
 		}	
@@ -252,12 +253,12 @@ public class Start {
 		Polynomials poly = new Polynomials();
 		for(int i=0; i<queryInputs.size(); i++){
 			String Q = queryInputs.get(i);
-			System.out.println("Query: " + Q);
+			//System.out.println("Query: " + Q);
 			StringTokenizer st = new StringTokenizer(Q);
 			String firstElemnt = st.nextToken();
-			switch (firstElemnt) {
+			switch (firstElemnt.toLowerCase()) {
 			case "select":
-				System.out.println("Select-before" + resultsSet);
+				//System.out.println("Select-before" + resultsSet);
 				ResultSet result1 = dm.executeStatement(Q);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
@@ -266,22 +267,22 @@ public class Start {
 					e1.printStackTrace();
 				}
 				
-				System.out.println("Select-after" + resultsSet);
+				//System.out.println("Select-after" + resultsSet);
 				break;
 			case "project":
 				try {
 				if(Q.contains("from")){
-					System.out.println("Project-from-before" + resultsSet);
+					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					System.out.println(modifiedQ);
+					//System.out.println(modifiedQ);
 					ResultSet result2 = dm.executeStatement(modifiedQ);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
-					System.out.println("Project-from-after" + resultsSet);
+					//System.out.println("Project-from-after" + resultsSet);
 				}
 				else{
-					System.out.println("Project-before" + resultsSet);
+					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
 					String modifiedQ = Q.substring(8, Q.length());
@@ -293,14 +294,14 @@ public class Start {
 					JSONArray projectR = poly.projection(r1,col);
 					resultsSet.remove(resultsSet.size()-1);
 					resultsSet.add(projectR);
-					System.out.println("Project-after" + resultsSet);
+					//System.out.println("Project-after" + resultsSet);
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			case "join":
-				System.out.println("Join-before" + resultsSet);
+				//System.out.println("Join-before" + resultsSet);
 				JSONArray r2 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r3 = resultsSet.get(resultsSet.size()-2);
 				String joinOn = Q.substring(5, Q.length());
@@ -309,10 +310,10 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(joinR);
-				System.out.println("Join-after" + resultsSet);
+				//System.out.println("Join-after" + resultsSet);
 				break;
 			case "union":
-				System.out.println("Union-before" + resultsSet);
+				//System.out.println("Union-before" + resultsSet);
 				JSONArray r4 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r5 = resultsSet.get(resultsSet.size()-2);
 				JSONArray unionR = poly.union(r4, r5);
@@ -320,7 +321,7 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(unionR);
 				
-				System.out.println("Union-after" + resultsSet);
+				//System.out.println("Union-after" + resultsSet);
 				break;
 			}
 		}	
@@ -332,12 +333,12 @@ public class Start {
 		Uncertain cer = new Uncertain();
 		for(int i=0; i<queryInputs.size(); i++){
 			String Q = queryInputs.get(i);
-			System.out.println("Query: " + Q);
+			//System.out.println("Query: " + Q);
 			StringTokenizer st = new StringTokenizer(Q);
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt) {
 			case "select":
-				System.out.println("Select-before" + resultsSet);
+				//System.out.println("Select-before" + resultsSet);
 				ResultSet result1 = dm.executeStatement(Q);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
@@ -346,22 +347,22 @@ public class Start {
 					e1.printStackTrace();
 				}
 				
-				System.out.println("Select-after" + resultsSet);
+				//System.out.println("Select-after" + resultsSet);
 				break;
 			case "project":
 				try {
 				if(Q.contains("from")){
-					System.out.println("Project-from-before" + resultsSet);
+					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					System.out.println(modifiedQ);
+					//System.out.println(modifiedQ);
 					ResultSet result2 = dm.executeStatement(modifiedQ);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
-					System.out.println("Project-from-after" + resultsSet);
+					//System.out.println("Project-from-after" + resultsSet);
 				}
 				else{
-					System.out.println("Project-before" + resultsSet);
+					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
 					String modifiedQ = Q.substring(8, Q.length());
@@ -373,7 +374,7 @@ public class Start {
 					JSONArray projectR = cer.projection(r1,col);
 					resultsSet.remove(resultsSet.size()-1);
 					resultsSet.add(projectR);
-					System.out.println("Project-after" + resultsSet);
+					//System.out.println("Project-after" + resultsSet);
 				}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -381,7 +382,7 @@ public class Start {
 				}
 				break;
 			case "join":
-				System.out.println("Join-before" + resultsSet);
+				//System.out.println("Join-before" + resultsSet);
 				JSONArray r2 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r3 = resultsSet.get(resultsSet.size()-2);
 				String joinOn = Q.substring(5, Q.length());
@@ -390,10 +391,10 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(joinR);
-				System.out.println("Join-after" + resultsSet);
+				//System.out.println("Join-after" + resultsSet);
 				break;
 			case "union":
-				System.out.println("Union-before" + resultsSet);
+				//System.out.println("Union-before" + resultsSet);
 				JSONArray r4 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r5 = resultsSet.get(resultsSet.size()-2);
 				JSONArray unionR = cer.union(r4, r5);
@@ -401,7 +402,7 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(unionR);
 				
-				System.out.println("Union-after" + resultsSet);
+				//System.out.println("Union-after" + resultsSet);
 				break;
 			}
 		}	
@@ -413,12 +414,12 @@ public class Start {
 		Probability prob = new Probability();
 		for(int i=0; i<queryInputs.size(); i++){
 			String Q = queryInputs.get(i);
-			System.out.println("Query: " + Q);
+			//System.out.println("Query: " + Q);
 			StringTokenizer st = new StringTokenizer(Q);
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt) {
 			case "select":
-				System.out.println("Select-before" + resultsSet);
+				//System.out.println("Select-before" + resultsSet);
 				ResultSet result1 = dm.executeStatement(Q);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
@@ -427,22 +428,22 @@ public class Start {
 					e1.printStackTrace();
 				}
 				
-				System.out.println("Select-after" + resultsSet);
+				//System.out.println("Select-after" + resultsSet);
 				break;
 			case "project":
 				try {
 				if(Q.contains("from")){
-					System.out.println("Project-from-before" + resultsSet);
+					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					System.out.println(modifiedQ);
+					//System.out.println(modifiedQ);
 					ResultSet result2 = dm.executeStatement(modifiedQ);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
-					System.out.println("Project-from-after" + resultsSet);
+					//System.out.println("Project-from-after" + resultsSet);
 				}
 				else{
-					System.out.println("Project-before" + resultsSet);
+					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
 					String modifiedQ = Q.substring(8, Q.length());
@@ -454,7 +455,7 @@ public class Start {
 					JSONArray projectR = prob.projection(r1,col);
 					resultsSet.remove(resultsSet.size()-1);
 					resultsSet.add(projectR);
-					System.out.println("Project-after" + resultsSet);
+					//System.out.println("Project-after" + resultsSet);
 				}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -462,7 +463,7 @@ public class Start {
 				}
 				break;
 			case "join":
-				System.out.println("Join-before" + resultsSet);
+				//System.out.println("Join-before" + resultsSet);
 				JSONArray r2 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r3 = resultsSet.get(resultsSet.size()-2);
 				String joinOn = Q.substring(5, Q.length());
@@ -471,10 +472,10 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(joinR);
-				System.out.println("Join-after" + resultsSet);
+				//System.out.println("Join-after" + resultsSet);
 				break;
 			case "union":
-				System.out.println("Union-before" + resultsSet);
+				//System.out.println("Union-before" + resultsSet);
 				JSONArray r4 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r5 = resultsSet.get(resultsSet.size()-2);
 				JSONArray unionR = prob.union(r4, r5);
@@ -482,7 +483,7 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(unionR);
 				
-				System.out.println("Union-after" + resultsSet);
+				//System.out.println("Union-after" + resultsSet);
 				break;
 			}
 		}	
@@ -494,12 +495,12 @@ public class Start {
 		Bag bag = new Bag();
 		for(int i=0; i<queryInputs.size(); i++){
 			String Q = queryInputs.get(i);
-			System.out.println("Query: " + Q);
+			//System.out.println("Query: " + Q);
 			StringTokenizer st = new StringTokenizer(Q);
 			String firstElemnt = st.nextToken();
 			switch (firstElemnt) {
 			case "select":
-				System.out.println("Select-before" + resultsSet);
+				//System.out.println("Select-before" + resultsSet);
 				ResultSet result1 = dm.executeStatement(Q);
 				try {
 					resultsSet.add(jc.convertToJSON(result1));
@@ -508,22 +509,22 @@ public class Start {
 					e1.printStackTrace();
 				}
 				
-				System.out.println("Select-after" + resultsSet);
+				//System.out.println("Select-after" + resultsSet);
 				break;
 			case "project":
 				try {
 				if(Q.contains("from")){
-					System.out.println("Project-from-before" + resultsSet);
+					//System.out.println("Project-from-before" + resultsSet);
 					String modifiedQ = "select " + Q.substring(8, Q.length());
-					System.out.println(modifiedQ);
+					//System.out.println(modifiedQ);
 					ResultSet result2 = dm.executeStatement(modifiedQ);
 					
 					resultsSet.add(jc.convertToJSON(result2));
 					
-					System.out.println("Project-from-after" + resultsSet);
+					//System.out.println("Project-from-after" + resultsSet);
 				}
 				else{
-					System.out.println("Project-before" + resultsSet);
+					//System.out.println("Project-before" + resultsSet);
 					JSONArray r1 = resultsSet.get(resultsSet.size()-1);
 					ArrayList<String> col = new ArrayList<String>();
 					String modifiedQ = Q.substring(8, Q.length());
@@ -535,7 +536,7 @@ public class Start {
 					JSONArray projectR = bag.projection(r1,col);
 					resultsSet.remove(resultsSet.size()-1);
 					resultsSet.add(projectR);
-					System.out.println("Project-after" + resultsSet);
+					//System.out.println("Project-after" + resultsSet);
 				}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -543,7 +544,7 @@ public class Start {
 				}
 				break;
 			case "join":
-				System.out.println("Join-before" + resultsSet);
+				//System.out.println("Join-before" + resultsSet);
 				JSONArray r2 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r3 = resultsSet.get(resultsSet.size()-2);
 				String joinOn = Q.substring(5, Q.length());
@@ -552,10 +553,10 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(joinR);
-				System.out.println("Join-after" + resultsSet);
+				//System.out.println("Join-after" + resultsSet);
 				break;
 			case "union":
-				System.out.println("Union-before" + resultsSet);
+				//System.out.println("Union-before" + resultsSet);
 				JSONArray r4 = resultsSet.get(resultsSet.size()-1);
 				JSONArray r5 = resultsSet.get(resultsSet.size()-2);
 				JSONArray unionR = bag.union(r4, r5);
@@ -563,7 +564,7 @@ public class Start {
 				resultsSet.remove(resultsSet.size()-1);
 				resultsSet.add(unionR);
 				
-				System.out.println("Union-after" + resultsSet);
+				//System.out.println("Union-after" + resultsSet);
 				break;
 			}
 		}	
