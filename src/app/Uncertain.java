@@ -82,9 +82,11 @@ public class Uncertain {
 										jo.put(currentDynamicKey, second_objects.get(currentDynamicKey));
 									}
 								}
-
+								
 								jo.put(c, first_objects.get(c));
-								jo.put("anotation", (anotationVal1.get(c)-anotationVal2.get(c))*second_objects.getDouble("anotation"));
+								Double val = (anotationVal1.get(first_objects.get(c))-anotationVal2.get(first_objects.get(c)))*second_objects.getDouble("anotation");
+								val = Math.round(val* 100.0) / 100.0;
+								jo.put("anotation", val);
 								finalOutPut.put(jo);
 
 							}
@@ -152,7 +154,8 @@ public class Uncertain {
 					}
 
 				}
-				jo.put("anotation", ano);
+				Double val = Math.round(ano* 100.0) / 100.0;
+				jo.put("anotation", val);
 				finalOutPut.put(jo);
 				//				if(finalOutPut!=null && finalOutPut.length()>0){
 				//					for (int k = 0; k < finalOutPut.length(); k++) {
