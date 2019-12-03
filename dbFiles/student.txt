@@ -1,4 +1,0 @@
-student_id, student_name, code, anotation
-123,'Maral','4gha',1
-124,'Jai','eath',1
-125,'Rafi','9sje',1

@@ -60,12 +60,12 @@ project A,C
 union
 
 
-project A,B from r
-project B,C from r
+project A,B from r2
+project B,C from r2
 join B
 project A,C
-project A,C from r
-project B,C from r
+project A,C from r2
+project B,C from r2
 join C
 project A,C
 union
@@ -77,6 +77,16 @@ join B
 project A,C
 project A,C from r1
 project B,C from r1
+join C
+project A,C
+union
+
+project A,B from r5
+project B,C from r5
+join B
+project A,C
+project A,C from r5
+project B,C from r5
 join C
 project A,C
 union
