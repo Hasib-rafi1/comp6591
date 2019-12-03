@@ -264,9 +264,17 @@ public class Probability {
 						}
 					}
 					if(same == true) {
-						if(ano<second_objects.getDouble("anotation")) {
-							ano = second_objects.getDouble("anotation");
+						if(ano + second_objects.getDouble("anotation")>1) {
+							if(ano>=second_objects.getDouble("anotation")) {
+								ano = ano;
+							}else {
+								ano = second_objects.getDouble("anotation");
+							}
+							
+						}else {
+							ano = ano + second_objects.getDouble("anotation");
 						}
+						
 					}
 
 				}

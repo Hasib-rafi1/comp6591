@@ -85,6 +85,9 @@ public class Uncertain {
 								
 								jo.put(c, first_objects.get(c));
 								Double val = (anotationVal1.get(first_objects.get(c).toString())-anotationVal2.get(first_objects.get(c).toString()))*second_objects.getDouble("anotation");
+								if(val==0) {
+									val= anotationVal1.get(first_objects.get(c).toString()) * second_objects.getDouble("anotation");
+								}
 								val = Math.round(val* 100.0) / 100.0;
 								jo.put("anotation", val);
 								finalOutPut.put(jo);
